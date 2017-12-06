@@ -1,1 +1,0 @@
-[["shape", {"0": "square", "1": "ellipse", "2": "heart"}], ["scale", {"0": "big", "1": "small"}], ["orientation", {"0": "pi/4", "1": "pi/2", "2": "3pi/4", "3": "pi", "4": "5pi/4", "5": "3pi/2", "6": "7pi/4", "7": "2pi"}], ["location", {"0": "top-left", "1": "top-right", "2": "bottom-left", "3": "bottom-right"}]]

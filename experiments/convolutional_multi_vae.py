@@ -32,9 +32,6 @@ import logging
 import sonnet as snt
 import tensorflow as tf
 from tensorflow.contrib.distributions.python.ops import mvn_linear_operator as mvn_linop
-
-from datasets.deepmind_shapes import dataset_provider
-# TODO(vrama): Add an mnist with attributes dataset provider.
 from datasets.mnist_attributes import dataset_provider as affine_mnist_provider
 from datasets.celeba import celeba_data_provider
 
@@ -157,18 +154,7 @@ class ConvolutionalMultiVae(object):
         Then the Tensor would be [2], similarly for more attributes.
       self._num_samples: Number of samples in the split of the dataset.
     """
-    if self.config.dataset == 'dm_shapes_with_labels':
-      raise NotImplementedError
-      #images, labels, latents, num_samples, num_classes_per_attribute = (
-      #    dataset_provider.provide_data(
-      #        self._split_name,
-      #        self.config.batch_size,
-      #        split_type=self.config.split_type,
-      #        preprocess_options=self.config.preprocess_options,
-      #        grayscale=self.config.grayscale,
-      #        shuffle_data=self._shuffle_or_not()))
-      #self._true_latents = latents
-    elif self.config.dataset == 'affine_mnist':
+    if self.config.dataset == 'affine_mnist':
       tf.logging.info('Loading the affine mnist datset with split type %s' % (self.config.split_type))
       images, labels, latents, num_samples, num_classes_per_attribute = (
           affine_mnist_provider.provide_data(
@@ -192,8 +178,7 @@ class ConvolutionalMultiVae(object):
             shuffle_data=self._shuffle_or_not())
       )
     else:
-      raise NotImplementedError('Only CUB, CelebA, DeepMind Shapes with labels, '
-                                'and MNIST with attributes '
+      raise NotImplementedError('Only CelebA and MNIST with attributes '
                                 'are available for use currently.')
     # In inference mode, we prepare the model for interactive usage, with
     # ability to specify a class label or image via. placeholders.

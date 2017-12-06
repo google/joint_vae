@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Trains a supervised multi-label classifier on Deepmind shapes.
+"""Trains a supervised multi-label classifier on MNIST-A.
 
 The model learns a mapping from images to different attributes / labels for
 the image. For example, the attributes can be shape, size, orientation, and
