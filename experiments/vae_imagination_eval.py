@@ -52,7 +52,7 @@ from experiments.convolutional_multi_vae import ConvolutionalMultiVae
 from experiments import comprehensibility
 
 from joint_vae import utils
-from experiments import interpolate
+from third_party.interpolate import interpolate
 
 
 flags = tf.flags

@@ -1,0 +1,17 @@
+name: "interpolate.py"
+description:
+    "Interpolation routines for latent spaces."
+
+third_party {
+  url {
+    type: HOMEPAGE
+    value: "https://github.com/dribnet/plat/"
+  }
+  url {
+    type: GIT
+    value: "https://github.com/dribnet/plat/blob/master/plat/interpolate.py"
+  }
+  version: "master branch"
+  last_upgrade_date { year: 2017 month: 12 day: 5 }
+  license_type: NOTICE
+}
