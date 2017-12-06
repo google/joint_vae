@@ -123,7 +123,7 @@ done
 loss_type=jmvae
 for num_latent in 10
 do
-	for jmvae_alpha in 1.0  #TODO(vrama): Check if we can do for 0.1 0.01
+	for jmvae_alpha in 1.0 
 	do
 		for alpha_y in  10 50
 		do
@@ -214,7 +214,7 @@ done
 loss_type=bivcca
 for num_latent in 10
 do
-	for bivcca_mu in 0.7  #TODO(vrama): Check if we can do for 0.1 0.01
+	for bivcca_mu in 0.7
 	do
 		for alpha_y in 10 50
 		do

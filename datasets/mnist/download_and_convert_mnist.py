@@ -251,7 +251,7 @@ def main(unused_argv):
   for split_name, indices in output_splits.iteritems():
     write_filename = _get_output_filename(FLAGS.dataset_dir, split_name)
 
-    assert(len(indices) == 2, "Indices has the wrong shape")
+    assert len(indices) == 2, "Indices has the wrong shape"
 
     if tf.gfile.Exists(write_filename):
       print('Dataset files already exist. Exiting without re-creating them.')

@@ -79,9 +79,6 @@ flags.DEFINE_boolean("binarize", True, "Performs binarization of the "
 flags.DEFINE_string("split_type", "iid", "iid or comp split.")
 flags.DEFINE_integer("random_seed", 42, "Random seed for dataset creation.")
 
-flags.DEFINE_string('dataset_iterorder', 'train,val,test', 'Order in which to'
-                    'iterate over the splits of MNIST.')
-
 # Names are defined at:
 # https://github.com/tensorflow/models/blob/master/slim/datasets/mnist.py
 split_names_to_mnist_names = {
@@ -103,7 +100,7 @@ def binarize_images(train_images, val_images, test_images, random_seed):
 
   return train_images, val_images, test_images
 
-def write_sstables(data, sstable_path):
+def write_tfexamples(data, tfexample_path):
 
   colorspace = "RGB"
   channels = 1
@@ -113,8 +110,8 @@ def write_sstables(data, sstable_path):
 
   image_coder = utils.ImageCoder(FLAGS.canvas_size)
 
-  builder = tf.python_io.TFRecordWriter(sstable_path)
-  tf.logging.info("Writing %s SSTable.", sstable_path)
+  builder = tf.python_io.TFRecordWriter(tfexample_path)
+  tf.logging.info("Writing %s TF Example.", tfexample_path)
 
   for index, datum in enumerate(data):
     # Convert the contents of the datum into a tf example.
@@ -137,7 +134,7 @@ def write_sstables(data, sstable_path):
     builder.write(example.SerializeToString())
 
     if index % 1000 == 0:
-      tf.logging.info("Wrote %d datapoints to the sstable.", index)
+      tf.logging.info("Wrote %d datapoints to the tfexample.", index)
 
   builder.close()
 
@@ -176,13 +173,12 @@ def split_train_val_test(attribute_data, label_splits):
   return (train_items, val_items, test_items)
 
 
-def process_images_and_create_labels(dataset, create_affine_mnist):
+def process_images_and_create_labels(dataset,
+                                     create_affine_mnist,
+                                     data_splits=_DATA_SPLITS):
   attribute_dataset = []
 
-  dataset_iterorder = FLAGS.dataset_iterorder.split(',')
-  print("Using ordering %s" % (dataset_iterorder))
-
-  for split in dataset_iterorder:
+  for split in data_splits:
     tf.logging.info("Processing split %s.", split)
 
     dataset_images, dataset_labels = dataset[split]
@@ -226,7 +222,7 @@ def load_mnist_dataset(split_name, use_batch_size=200):
           dataset_dir=FLAGS.path_to_original_mnist,
       )
       num_samples = dataset_mnist.num_samples
-      mnist_provider = tensorflow.contrib.slim.python.slim.dataset_data_provider.DatasetDataProvider(
+      mnist_provider = tf.contrib.slim.dataset_data_provider.DatasetDataProvider(
           dataset_mnist,
           shuffle=False,
       )
@@ -243,7 +239,7 @@ def load_mnist_dataset(split_name, use_batch_size=200):
         images_in_split.append(loaded_image[np.newaxis, :])
         classes_in_split.append(loaded_label)
 
-        if load_iteration % 10 == 0:
+        if load_iteration % 5000 == 0:
           tf.logging.info("Loaded %d of %d", load_iteration,
                        num_samples)
 
@@ -268,16 +264,13 @@ def main(argv=()):
       "output_test_tfexample path.")
 
   np.random.seed(FLAGS.random_seed)
-  print('At random seed setting.')
 
   data_splits = _DATA_SPLITS
 
   # Load the MNIST dataset from existing SSTables.
-  # Non stochastic.
   split_to_dataset = load_mnist_dataset(data_splits)
 
   # Class to add attributes to MNIST.
-  # Non stochastic.
   create_affine_mnist = partition_labels.CreateMnistWithAttributes(
       FLAGS.label_split_json,
       FLAGS.label_map_json,
@@ -287,16 +280,11 @@ def main(argv=()):
   )
 
   # Process each record and add the images and attriutes to MNIST.
-  # Stochastic.
   affine_mnist = process_images_and_create_labels(
       split_to_dataset, create_affine_mnist)
 
-  import pdb
-  pdb.set_trace()
-
   # At this point we will either be splitting based on the data point in an
   # IID manner or we will be splitting into unique attribute combinations.
-  # Stochastic.
   label_splits = create_affine_mnist.split_train_val_test(
       _TRAIN_VAL_TEST_SPLIT)
 
@@ -322,15 +310,10 @@ def main(argv=()):
     train_split, val_split, test_split = binarize_images(
         train_split, val_split, test_split, FLAGS.random_seed)
 
-  # Debugging.
-  print("Size of the validation split is: %d" % (len(val_split)))
-  print("First entry of Validation")
-  print(val_split[0])
-
-  # Write output SSTables.
-  write_sstables(train_split, FLAGS.output_train_tfexample)
-  write_sstables(val_split, FLAGS.output_val_tfexample)
-  write_sstables(test_split, FLAGS.output_test_tfexample)
+  # Write output TFExamples.
+  write_tfexamples(train_split, FLAGS.output_train_tfexample)
+  write_tfexamples(val_split, FLAGS.output_val_tfexample)
+  write_tfexamples(test_split, FLAGS.output_test_tfexample)
 
 
 if __name__ == "__main__":

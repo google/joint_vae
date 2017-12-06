@@ -37,10 +37,10 @@ import threading
 import zipfile
 
 from scipy.io import savemat
-from data_utils import ImageCoder
-from data_utils import _process_image
-from data_utils import _int64_feature
-from data_utils import _bytes_feature
+from utils.data_utils import ImageCoder
+from utils.data_utils import _process_image
+from utils.data_utils import _int64_feature
+from utils.data_utils import _bytes_feature
 
 tf.app.flags.DEFINE_string('dataset_dir', '/tmp/celeba', 'Destination for the'
                            ' Celeb A dataset.')
