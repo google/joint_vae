@@ -1,0 +1,12 @@
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.ipynb
+*.ps
+*.dvi
+*.synctex.gz
+*~
+*.pyc
