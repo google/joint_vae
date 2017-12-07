@@ -4,7 +4,7 @@
 source preamble.sh
 
 DATASET="affine_mnist"
-DATASET_DIR="/nethome/rvedantam3/data/mnista/"
+DATASET_DIR="${PWD}/data/mnist_with_attributes/"
 
 #python experiments/vae_train.py \
 #	--dataset_dir ${DATASET_DIR}\

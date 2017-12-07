@@ -7,14 +7,14 @@ DATASET="affine_mnist"
 DATASET_DIR="${PWD}/data/mnist_with_attributes/"
 
 ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}"/imagination"
-SPLIT_TYPE="iid"
-EVAL_SPLIT_NAME="val"
+SPLIT_TYPE="comp"
+EVAL_SPLIT_NAME="test"
 
-ICLR_RESULTS_PATH=${GLOBAL_RUNS_PATH}/imagination/iclr_mnista_fresh_${SPLIT_TYPE}
-EXP_PREFIX=iclr_mnista_fresh_${SPLIT_TYPE}
+ICLR_RESULTS_PATH=${GLOBAL_RUNS_PATH}/imagination/CORRECTCOMP_iclr_mnista_fresh_${SPLIT_TYPE}
+EXP_PREFIX=CORRECTCOMP_iclr_mnista_fresh_${SPLIT_TYPE}
 
 MODEL_TYPE=multi
-num_training_steps=250000
+num_training_steps=200000
 
 alpha_x=1
 product_of_experts=1
@@ -22,7 +22,7 @@ if [ ! -e ${ROOT_LOG_DIR}/${EXP_PREFIX} ]; then
 	mkdir ${ROOT_LOG_DIR}/${EXP_PREFIX}
 fi
 
-########################################## TELBO/ KL(q| p).################
+########################################## KL(q| p).################
 loss_type=multimodal_elbo
 for num_latent in 10
 do
@@ -30,9 +30,9 @@ do
 	do 
 		for stop_elbox_gradient in 1
 		do
-			for private_py_scaling in 50 100
+			for private_py_scaling in 50
 			do
-				for alpha_y in 1 10 50
+				for alpha_y in 50
 				do
 					for l1_reg in 5e-6
 					do
@@ -51,6 +51,7 @@ do
 							--dataset affine_mnist \
 							--dataset_dir ${DATASET_DIR}\
 							--loss_type ${loss_type}\
+							--split_type ${SPLIT_TYPE}\
 							--image_likelihood Bernoulli\
 							--label_likelihood Categorical \
 							--alpha_x=${alpha_x}\
@@ -75,6 +76,7 @@ do
 						CMD_STRING="python experiments/vae_eval.py\
 							--dataset affine_mnist \
 							--dataset_dir ${DATASET_DIR} \
+							--split_type ${SPLIT_TYPE}\
 							--split_name val \
 							--num_result_datapoints 25 \
 							--image_likelihood Bernoulli \
@@ -119,13 +121,13 @@ do
 	done
 done
 
-################JmVAE models #####################################
+###############JmVAE models #####################################
 loss_type=jmvae
 for num_latent in 10
 do
 	for jmvae_alpha in 1.0  #TODO(vrama): Check if we can do for 0.1 0.01
 	do
-		for alpha_y in  10 50
+		for alpha_y in 50
 		do
 		  for l1_reg in 5e-6
 		  do
@@ -143,6 +145,7 @@ do
 			CMD_STRING="python experiments/vae_train.py\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\
+ 			--split_type ${SPLIT_TYPE}\
 				--loss_type ${loss_type}\
 				--image_likelihood Bernoulli\
 				--label_likelihood Categorical \
@@ -166,6 +169,7 @@ do
 			CMD_STRING="python experiments/vae_eval.py\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR} \
+ 			--split_type ${SPLIT_TYPE}\
 				--split_name val \
 				--num_result_datapoints 25 \
 				--image_likelihood Bernoulli \
@@ -214,9 +218,9 @@ done
 loss_type=bivcca
 for num_latent in 10
 do
-	for bivcca_mu in 0.7 
+	for bivcca_mu in 0.7  #TODO(vrama): Check if we can do for 0.1 0.01
 	do
-		for alpha_y in 10 50
+		for alpha_y in 50
 		do
 		  for l1_reg in 5e-6
 		  do
@@ -234,6 +238,7 @@ do
 			CMD_STRING="python experiments/vae_train.py\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\
+ 			--split_type ${SPLIT_TYPE}\
 				--loss_type ${loss_type}\
 				--image_likelihood Bernoulli\
 				--label_likelihood Categorical \
@@ -258,6 +263,7 @@ do
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR} \
 				--split_name val \
+ 			--split_type ${SPLIT_TYPE}\
 				--num_result_datapoints 25 \
 				--image_likelihood Bernoulli \
 				--label_likelihood Categorical \

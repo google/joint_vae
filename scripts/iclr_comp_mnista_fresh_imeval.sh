@@ -7,14 +7,14 @@ DATASET="affine_mnist"
 DATASET_DIR="${PWD}/data/mnist_with_attributes/"
 
 ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}"/imagination"
-SPLIT_TYPE="iid"
+SPLIT_TYPE="comp"
 EVAL_SPLIT_NAME="val"
 
 ICLR_RESULTS_PATH=${GLOBAL_RUNS_PATH}/imagination/iclr_mnista_fresh_${SPLIT_TYPE}
 EXP_PREFIX=iclr_mnista_fresh_${SPLIT_TYPE}
 
 MODEL_TYPE=multi
-num_training_steps=500000
+num_training_steps=360000
 
 alpha_x=1
 product_of_experts=1
@@ -32,7 +32,7 @@ do
 		do
 			for private_py_scaling in 1 50 100
 			do
-				for alpha_y in 1 10 50
+				for alpha_y in 10 50
 				do
 					for l1_reg in 5e-6
 					do
@@ -62,12 +62,8 @@ do
 							--num_latent ${num_latent}\
 							--checkpoint_dir ${TRAIN_DIR}\
 							--eval_dir ${TRAIN_DIR}\
-							--evaluate_once\
-							--interplate_queries=0\
 							--alsologtostderr"
 						eval ${CMD_STRING}
-						# TODO(vrama): Remove that interpolate queries flag.
-
 					done
 				done
 			done
@@ -81,7 +77,7 @@ for num_latent in 10
 do
 	for jmvae_alpha in 1.0  #TODO(vrama): Check if we can do for 0.1 0.01
 	do
-		for alpha_y in 1 10 50
+		for alpha_y in 10 50
 		do
 		  for l1_reg in 5e-6
 		  do
@@ -89,13 +85,6 @@ do
 			JOB_NAME="affine_mnist_loss_"${loss_type}"_poe_"${product_of_experts}"_nl_"${num_latent}"_jmalpha_"${jmvae_alpha}"_ax_"${alpha_x}"_ay_"${alpha_y}"_l1_pxyz_"${l1_reg}
 
 			TRAIN_DIR=${ROOT_LOG_DIR}/${EXP_PREFIX}/${JOB_NAME}
-
-			if [ ! -e ${TRAIN_DIR} ]; then
-				mkdir ${TRAIN_DIR}
-			fi
-
-			MODE_STR="_imeval_"
-			RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
 			CMD_STRING="python experiments/vae_imagination_eval.py\
 				--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
@@ -111,7 +100,6 @@ do
 				--num_latent ${num_latent}\
 				--checkpoint_dir ${TRAIN_DIR}\
 				--eval_dir ${TRAIN_DIR}\
-				--evaluate_once\
 				--alsologtostderr"
 			eval ${CMD_STRING}
 		 done
@@ -126,7 +114,7 @@ for num_latent in 10
 do
 	for bivcca_mu in 0.7  #TODO(vrama): Check if we can do for 0.1 0.01
 	do
-		for alpha_y in 1 10 50
+		for alpha_y in 10 50
 		do
 		  for l1_reg in 5e-6
 		  do
@@ -134,10 +122,6 @@ do
 			JOB_NAME="affine_mnist_loss_"${loss_type}"_poe_"${product_of_experts}"_nl_"${num_latent}"_bmu"${bivcca_mu}"_ax_"${alpha_x}"_ay_"${alpha_y}"_l1_pxyz_"${l1_reg}
 
 			TRAIN_DIR=${ROOT_LOG_DIR}/${EXP_PREFIX}/${JOB_NAME}
-
-			if [ ! -e ${TRAIN_DIR} ]; then
-				mkdir ${TRAIN_DIR}
-			fi
 
 			MODE_STR="_imeval_"
 			RUN_JOB_STR=${JOB_NAME}${MODE_STR}
@@ -156,10 +140,11 @@ do
 				--num_latent ${num_latent}\
 				--checkpoint_dir ${TRAIN_DIR}\
 				--eval_dir ${TRAIN_DIR}\
-				--evaluate_once\
 				--alsologtostderr"
 			eval ${CMD_STRING}
 		 done
 	 done
   done
 done
+
+

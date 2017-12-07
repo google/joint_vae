@@ -44,7 +44,7 @@ flags.DEFINE_string('split_type', 'iid',
 # Loading same JSON file for both 'iid'/'compositional'.
 flags.DEFINE_string(
     'label_map_json',
-    '/nethome/rvedantam3/data/mnista/label_map_iid.json',
+    '${PWD}/data/mnist_with_attributes/label_map_iid.json',
     'A json file storing a list tuple of (attribute keys (str), label maps for'
     ' each attribute (dict)).')
 

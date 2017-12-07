@@ -24,9 +24,9 @@ for SPLIT_TYPE in "iid" "comp"
 do
 	echo "Generating dataset for split "${SPLIT_TYPE}
 	python datasets/mnist_attributes/create_dataset.py \
-		--output_train_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_train"\
-		--output_val_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_val"\
-		--output_test_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_test"\
+		--output_train_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_train.tf_record"\
+		--output_val_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_val.tf_record"\
+		--output_test_tfexample "${PATH_TO_MNISTA}/${SPLIT_TYPE}_test.tf_record"\
 		--path_to_original_mnist ${PATH_TO_MNIST}\
 		--label_split_json "${PATH_TO_MNISTA}/${SPLIT_TYPE}_label_split.json"\
 		--label_map_json "${PATH_TO_MNISTA}/${SPLIT_TYPE}_label_map.json"\

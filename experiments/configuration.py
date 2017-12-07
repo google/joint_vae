@@ -179,39 +179,7 @@ class Configuration(object):
     self.cub_irv2_features = FLAGS.cub_irv2_features
     self.cub_box_cox_lambda = FLAGS.cub_box_cox_lambda
 
-    if self.dataset == 'cub':
-      assert self.split_type == 'iid', 'CUB only has an iid split right now.'
-      if FLAGS.cub_irv2_features:
-        self.image_size = (1536,)
-      else:
-        self.image_size = (64, 64, 3)
-      self.grayscale = False
-      self.preprocess_options = 'center'
-      self.comprehensibility_ckpt = ''
-      self.comprehensibility_hidden_units = 512
-
-      self.cub_categorical = FLAGS.cub_categorical
-      if self.cub_categorical:
-        self.label_map_json = ('/usr/local/google/home/iansf/dev/CUB_200_2011/'
-                               'label_map_categorical.json')
-      else:
-        self.label_map_json = ('/cns/ok-d/home/iansf/vale-project/datasets/'
-                               'cub2011/label_map.json')
-      label_mapping = label_map.LabelMap(self.label_map_json)
-      self.num_classes_per_attribute = label_mapping.count_labels
-      if self.cub_classes_only:
-        self.num_classes_per_attribute = self.num_classes_per_attribute[:1]
-      elif self.cub_skip_classes:
-        self.num_classes_per_attribute = self.num_classes_per_attribute[1:]
-    elif self.dataset == 'dm_shapes_with_labels':
-      self.image_size = (64, 64, 1)
-      self.num_classes_per_attribute = (3, 2, 8, 4)
-      self.grayscale = True
-      self.preprocess_options = 'binarize'  # Options to preprocess the image.
-      self.comprehensibility_ckpt = ''
-      self.label_map_json = ''
-      self.comprehensibility_hidden_units = 1024
-    elif self.dataset == 'affine_mnist':
+    if self.dataset == 'affine_mnist':
       self.image_size = (64, 64, 1)
 
       self.num_classes_per_attribute = (10, 2, 3, 4)
@@ -224,7 +192,7 @@ class Configuration(object):
       # whether the VAE is being trained on IID or compositional splits, since
       # we care about having the best classifier for eval.
       self.comprehensibility_ckpt = ('mnista_classifier_checkpoint/model.ckpt-50002')
-      self.label_map_json = ('/nethome/rvedantam3/data/mnista/label_map_iid.json')
+      self.label_map_json = ('./data/mnist_with_attributes/iid_label_map.json')
       self.comprehensibility_hidden_units = 1024
     elif self.dataset == 'celeba':
       self.image_size = (64, 64, 3)
@@ -338,7 +306,6 @@ class Configuration(object):
       )
 
     if self.loss_type not in [
-        # reweighted elbo is elbo(x) + elbo(x, y) + c * elbo(y)
         'multimodal_elbo', 'jmvae', 'bivcca', 'multi_stage', 'reweighted_elbo',
         'fwkl'
     ]:

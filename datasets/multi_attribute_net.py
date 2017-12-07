@@ -15,7 +15,7 @@
 
 """Contains the definition of a multi-attribute classification network.
 
-The in this file is a simple convolutional network with two
+The model in this file is a simple convolutional network with two
 convolutional layers, two pooling layers, followed by two fully connected
 layers. A single dropout layer is used between the two fully connected layers.
 The network has "n" heads after the convolutional part, where "n" is the number

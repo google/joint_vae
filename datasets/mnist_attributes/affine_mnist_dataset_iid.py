@@ -49,15 +49,13 @@ from tensorflow.contrib.slim.python.slim.data import dataset
 from tensorflow.contrib.slim.python.slim.data import tfexample_decoder
 
 # Only provides option to load the binarized version of the dataset.
-_FILE_PATTERN = 'binarized_True_replication_10_%s_at_%s_%s.tf_record'
+_FILE_PATTERN = '%s_at_%s_%s.tf_record'
 
-_DATASET_DIR = ('/nethome/rvedantam3/data/mnista/')
+_DATASET_DIR = ('./data/mnist_with_attributes/')
 
 _SPLIT_TYPE = 'iid'
 
-_SPLITS_TO_SIZES = {'test': 69742, 'val': 34935, 'train': 595323}
-
-_SPLITS_TO_SHARDS = {'test': 5, 'train': 20, 'val': 5}
+_SPLITS_TO_SIZES = {'test': 69837, 'val': 35221, 'train': 594942}
 
 _ITEMS_TO_DESCRIPTIONS = {
     'image': 'A [64 x 64 x 1] grayscale image.',
@@ -106,7 +104,7 @@ def get_split(split_name='train',
   if dataset_dir is None:
     dataset_dir = _DATASET_DIR
 
-  file_pattern = os.path.join(dataset_dir, _FILE_PATTERN % (split_name, _SPLITS_TO_SHARDS[split_name], _SPLIT_TYPE))
+  file_pattern = os.path.join(dataset_dir, _FILE_PATTERN % (split_name, _SPLIT_TYPE))
 
   keys_to_features = {
       'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),

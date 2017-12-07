@@ -51,7 +51,7 @@ _FILE_PATTERN = 'binarized_True_replication_1_retrieval_at_1.tf_record'
 
 # TODO(vrama): Update
 _DATASET_DIR = (
-    '/nethome/rvedantam3/data/mnista/'
+    '${PWD}/data/mnist_with_attributes/'
 )
 
 _SPLIT_TYPE = 'retrieval'
