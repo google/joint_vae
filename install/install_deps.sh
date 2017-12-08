@@ -1,14 +1,15 @@
 # Install dependencies for the imagination project.
 #
 # Run from the root directory of the project.
+VENV_NAME='imag'
 
 # Create a virtualenvironment.
 if [ ! -e ${HOME}/venv ]; then
 	mkdir ${HOME}/venv
 fi
 
-virtualenv --python=/usr/bin/python2.7 --system-site-packages ${HOME}/venv/imagination
-source ${HOME}/venv/imagination/bin/activate
+virtualenv --python=/usr/bin/python2.7 --system-site-packages ${HOME}/venv/${VENV_NAME}
+source ${HOME}/venv/${VENV_NAME}/bin/activate
 
 # Install tensorflow > 1.2 needed for sonnet.
 pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.2.1-cp27-none-linux_x86_64.whl
