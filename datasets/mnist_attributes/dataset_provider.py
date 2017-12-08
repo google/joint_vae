@@ -77,7 +77,7 @@ def provide_data(split_name,
 
   # The retrieval split is a different split of the data, from
   # IID or compositional. The retrieval split is an IID split, still though.
-  if split_name == 'retrieval':
+  if split_type == 'retrieval':
     raise NotImplementedError
   # If we are not requesting the retrieval split, then look for whether we want
   # IID or compositional split.
