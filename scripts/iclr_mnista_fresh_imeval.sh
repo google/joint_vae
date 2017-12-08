@@ -6,7 +6,7 @@ DATASET="affine_mnist"
 # This actually doesnt matter for affine mnist.
 DATASET_DIR="${PWD}/data/mnist_with_attributes/"
 
-ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}"/imagination"
+ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}
 SPLIT_TYPE="iid"
 EVAL_SPLIT_NAME="val"
 
@@ -14,7 +14,7 @@ ICLR_RESULTS_PATH=${GLOBAL_RUNS_PATH}/imagination/iclr_mnista_fresh_${SPLIT_TYPE
 EXP_PREFIX=iclr_mnista_fresh_${SPLIT_TYPE}
 
 MODEL_TYPE=multi
-num_training_steps=500000
+num_training_steps=200000
 
 alpha_x=1
 product_of_experts=1

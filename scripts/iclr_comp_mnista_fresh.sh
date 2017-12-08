@@ -6,7 +6,7 @@ DATASET="affine_mnist"
 # This actually doesnt matter for affine mnist.
 DATASET_DIR="${PWD}/data/mnist_with_attributes/"
 
-ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}"/imagination"
+ROOT_LOG_DIR=${GLOBAL_RUNS_PATH}
 SPLIT_TYPE="comp"
 EVAL_SPLIT_NAME="test"
 
