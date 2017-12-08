@@ -36,6 +36,27 @@ paper.
 	2) `iclr_mnista_fresh.sh`: Experiments on iid split of MNISTA.
 	3) `celeba_training.sh`: Experiments on CelebA dataset.
 
+Running above scripts uses (slurm)[https://slurm.schedmd.com/] to run/launch jobs on clusters, so only
+run the above if you have access to a cluster with slurm installed on it. If you dont have access to slurm simply run the corresponding
+python commands in the above scripts with the appropriate parameters.
+
+---
+Each experiment is associated with three jobs: `train`, `eval` and `imeval` (imagination evaluation).
+
+Example commands to run experiments with slurm:
+  * source scripts/iclr_mnista_fresh.sh '' (to run all 3 jobs for every experiment)
+  * source scripts/iclr_mnista_fresh.sh train (to launch only training jobs)
+  * source scripts/iclr_mnista_fresh.sh eval (to launch only eval jobs)
+	* source scripts/iclr_mnista_fresh.sh imeval (to launch only imagination eval jobs)
+
+If you dont have access to slurm, you can see what command line arguments are used
+for running experiments (in the above scripts) and run those commands in bash.
+
+### Quantiative Results
+See the ipython notebook `experiments/iclr_results_aggregate.ipynb` on how to view
+the imagination results after running imeval (imagination evaluation) jobs, post
+training.
+
 ## Disclaimer:
 
 This project is not an official Google project. It is not supported by Google

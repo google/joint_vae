@@ -1,4 +1,6 @@
-# Script to do large scale training of images on CELEBA faces dataset.
+# Script to do large scale training of imagination models.
+#
+
 source preamble.sh
 
 DATASET="affine_mnist"
