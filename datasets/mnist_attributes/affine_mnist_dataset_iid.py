@@ -104,7 +104,7 @@ def get_split(split_name='train',
   if dataset_dir is None:
     dataset_dir = _DATASET_DIR
 
-  file_pattern = os.path.join(dataset_dir, _FILE_PATTERN % (split_name, _SPLIT_TYPE))
+  file_pattern = os.path.join(dataset_dir, _FILE_PATTERN % (_SPLIT_TYPE, split_name))
 
   keys_to_features = {
       'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
