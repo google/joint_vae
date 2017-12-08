@@ -47,7 +47,7 @@ from tensorflow.contrib.slim.python.slim.data import dataset
 from tensorflow.contrib.slim.python.slim.data import tfexample_decoder
 
 # Only provides option to load the binarized version of the dataset.
-_FILE_PATTERN = '%s_at_%s_%s.tf_record'
+_FILE_PATTERN = '%s_%s.tf_record'
 
 _DATASET_DIR = ('./data/mnist_with_attributes/')
 
