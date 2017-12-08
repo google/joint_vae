@@ -95,8 +95,9 @@ do
 						MODE_STR="_imeval_"
 						RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
+						# NOTE: For the compositonal queries, we dont provide a separate set of queries from outside,
+						# and instead just re-use the queries in the TFRecords.
 						CMD_STRING="python experiments/vae_imagination_eval.py\
-							--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 							--model_type multi\
 							--dataset affine_mnist \
 							--dataset_dir ${DATASET_DIR}\
@@ -190,7 +191,6 @@ do
 			RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
 			CMD_STRING="python experiments/vae_imagination_eval.py\
-				--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 				--model_type multi\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\
@@ -283,7 +283,6 @@ do
 			RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
 			CMD_STRING="python experiments/vae_imagination_eval.py\
-				--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 				--model_type multi\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\

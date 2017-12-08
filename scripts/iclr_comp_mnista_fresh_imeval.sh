@@ -49,7 +49,6 @@ do
 						RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
 						CMD_STRING="python experiments/vae_imagination_eval.py\
-							--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 							--model_type multi\
 							--dataset affine_mnist \
 							--dataset_dir ${DATASET_DIR}\
@@ -87,7 +86,6 @@ do
 			TRAIN_DIR=${ROOT_LOG_DIR}/${EXP_PREFIX}/${JOB_NAME}
 
 			CMD_STRING="python experiments/vae_imagination_eval.py\
-				--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 				--model_type multi\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\
@@ -127,7 +125,6 @@ do
 			RUN_JOB_STR=${JOB_NAME}${MODE_STR}
 
 			CMD_STRING="python experiments/vae_imagination_eval.py\
-				--input_queries=${PWD}/query_files/mnist_with_attributes_dataset_${SPLIT_TYPE}/query_${EVAL_SPLIT_NAME}_poe_${product_of_experts}.p\
 				--model_type multi\
 				--dataset affine_mnist \
 				--dataset_dir ${DATASET_DIR}\

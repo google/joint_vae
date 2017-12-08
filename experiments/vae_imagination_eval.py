@@ -134,7 +134,7 @@ def construct_feature_extraction_graph(config):
       vae = ConvolutionalMultiVae(
           config,
           mode=FLAGS.split_name,
-          split_name='retrieval',
+          split_name=FLAGS.split_name,
           add_summary=False)
     elif FLAGS.model_type == 'single' or 'kronecker':
       raise NotImplementedError
