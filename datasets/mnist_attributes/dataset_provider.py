@@ -21,8 +21,6 @@ from tensorflow.contrib.slim.python.slim.data import dataset_data_provider
 
 from datasets.mnist_attributes import affine_mnist_dataset_comp
 from datasets.mnist_attributes import affine_mnist_dataset_iid
-from datasets.mnist_attributes import affine_mnist_retrieval_set
-import retrieval_set
 
 BINARIZE = 'binarize'
 CENTER = 'center'
@@ -80,7 +78,7 @@ def provide_data(split_name,
   # The retrieval split is a different split of the data, from
   # IID or compositional. The retrieval split is an IID split, still though.
   if split_name == 'retrieval':
-    dataset, metadata = affine_mnist_retrieval_set.get_split(split_name=split_name, dataset_dir=dataset_dir)
+    raise NotImplementedError
   # If we are not requesting the retrieval split, then look for whether we want
   # IID or compositional split.
   elif split_type == 'comp':
