@@ -57,6 +57,11 @@ See the ipython notebook `experiments/iclr_results_aggregate.ipynb` on how to vi
 the imagination results after running imeval (imagination evaluation) jobs, post
 training.
 
+## Contributors
+* Ramakrishna Vedantam
+* Hernan Moraldo
+* Ian Fischer
+
 ## Disclaimer:
 
 This project is not an official Google project. It is not supported by Google
